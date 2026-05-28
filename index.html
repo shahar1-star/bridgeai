@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BridgeAI — AI-Powered Mentorship</title>
+  <meta name="description" content="BridgeAI connects ambitious learners with expert mentors through AI-powered matching. Bridge the gap between where you are and where you want to be." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Hero */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 7rem 1.5rem 6rem; text-align: center;
+    }
+    .hero .orb { position: absolute; }
+    .hero .orb-1 { width: 600px; height: 600px; top: -200px; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(99,102,241,.15), transparent 70%); filter: none; }
+    .hero .orb-2 { width: 300px; height: 300px; top: 50px; left: -100px; }
+    .hero .orb-3 { width: 250px; height: 250px; bottom: 0; right: -80px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: .5rem; background: rgba(99,102,241,.1); border: 1px solid var(--border2); border-radius: 50px; padding: .4rem 1rem; font-size: .82rem; font-weight: 600; color: var(--indigo); margin-bottom: 1.5rem; }
+    .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+    .hero h1 { max-width: 760px; margin: 0 auto 1.25rem; }
+    .hero p { font-size: 1.15rem; max-width: 540px; margin: 0 auto 2.5rem; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 3.5rem; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; }
+    .hero-stat strong { display: block; font-size: 1.75rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-stat span { font-size: .85rem; color: var(--muted); }
+
+    /* Logos */
+    .logos { padding: 2.5rem 1.5rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .logos p { font-size: .82rem; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); text-align: center; margin-bottom: 1.5rem; }
+    .logos-row { display: flex; flex-wrap: wrap; gap: 2rem 3.5rem; justify-content: center; align-items: center; }
+    .logo-item { color: var(--faint); font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: .05em; transition: color .2s; }
+    .logo-item:hover { color: var(--muted); }
+
+    /* How it works */
+    .steps { counter-reset: step; }
+    .step { display: flex; gap: 1.75rem; margin-bottom: 2.5rem; align-items: flex-start; }
+    .step-num { counter-increment: step; min-width: 48px; height: 48px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: #fff; box-shadow: 0 4px 16px rgba(99,102,241,.35); flex-shrink: 0; }
+    .step-num::after { content: counter(step); }
+    .step-body h3 { margin-bottom: .35rem; }
+
+    /* Features grid */
+    .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+    /* Mentors */
+    .mentor-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: all .25s; }
+    .mentor-card:hover { border-color: var(--border2); box-shadow: var(--shadow); transform: translateY(-3px); }
+    .mentor-img { height: 200px; background: linear-gradient(135deg, var(--bg3), var(--card2)); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+    .mentor-info { padding: 1.25rem; }
+    .mentor-info h3 { font-size: 1.05rem; margin-bottom: .2rem; }
+    .mentor-info .role { font-size: .85rem; color: var(--cyan); margin-bottom: .75rem; }
+    .mentor-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag { background: var(--bg3); border: 1px solid var(--border); padding: .25rem .7rem; border-radius: 50px; font-size: .75rem; color: var(--muted); }
+
+    /* Testimonials */
+    .testimonial-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem; }
+    .stars { color: #f59e0b; font-size: .9rem; margin-bottom: 1rem; letter-spacing: .1em; }
+    .quote { color: var(--text); font-size: .95rem; line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
+    .reviewer { display: flex; align-items: center; gap: .75rem; }
+    .reviewer-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: .9rem; }
+    .reviewer-name { font-size: .9rem; font-weight: 600; color: var(--text); }
+    .reviewer-role { font-size: .8rem; color: var(--muted); }
+
+    /* CTA section */
+    .cta-section { text-align: center; }
+    .cta-box { background: linear-gradient(135deg, rgba(99,102,241,.1), rgba(6,182,212,.06)); border: 1px solid var(--border2); border-radius: 24px; padding: 4rem 2rem; position: relative; overflow: hidden; }
+    .cta-box::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(99,102,241,.12), transparent); pointer-events: none; }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="BridgeAI home">Bridge<span>AI</span></a>
+      <ul class="nav-links" role="list">
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#mentors">Mentors</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="signup.html" class="btn btn-outline btn-sm">Log In</a>
+        <a href="signup.html" class="btn btn-primary btn-sm">Get Started Free</a>
+      </div>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" onclick="toggleMenu(this)">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div id="mobile-menu" style="display:none; padding:.75rem 1.5rem 1rem; border-top:1px solid var(--border);">
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:.25rem; margin-bottom:1rem;">
+        <li><a href="#how-it-works" style="display:block;padding:.6rem .75rem;border-radius:8px;text-decoration:none;color:var(--muted);font-size:.95rem;" onclick="toggleMenu(document.querySelector('.hamburger'))">How It Works</a></li>
+        <li><a href="#features" style="display:block;padding:.6rem .75rem;border-radius:8px;text-decoration:none;color:var(--muted);font-size:.95rem;" onclick="toggleMenu(document.querySelector('.hamburger'))">Features</a></li>
+        <li><a href="#mentors" style="display:block;padding:.6rem .75rem;border-radius:8px;text-decoration:none;color:var(--muted);font-size:.95rem;" onclick="toggleMenu(document.querySelector('.hamburger'))">Mentors</a></li>
+      </ul>
+      <div style="display:flex;flex-direction:column;gap:.5rem;">
+        <a href="signup.html" class="btn btn-outline">Log In</a>
+        <a href="signup.html" class="btn btn-primary">Get Started Free</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" role="banner">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-purple orb-2"></div>
+    <div class="orb orb-cyan orb-3"></div>
+    <div style="position:relative;z-index:1;">
+      <div class="hero-badge"><span class="dot"></span> AI-Powered Mentorship Platform</div>
+      <h1>Bridge the Gap to Your <span class="gradient-text">Dream Career</span></h1>
+      <p>Connect with world-class mentors, get AI-personalized guidance, and fast-track your growth in tech, AI, and beyond.</p>
+      <div class="hero-cta">
+        <a href="signup.html" class="btn btn-primary btn-lg">Start Learning Free</a>
+        <a href="mentor-exam.html" class="btn btn-outline btn-lg">Become a Mentor</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>12,000+</strong><span>Active Learners</span></div>
+        <div class="hero-stat"><strong>850+</strong><span>Expert Mentors</span></div>
+        <div class="hero-stat"><strong>94%</strong><span>Goal Achievement</span></div>
+        <div class="hero-stat"><strong>4.9★</strong><span>Average Rating</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Trusted by -->
+  <div class="logos">
+    <p>Trusted by learners from</p>
+    <div class="logos-row" aria-label="Companies learners have joined">
+      <span class="logo-item">Google</span>
+      <span class="logo-item">Stripe</span>
+      <span class="logo-item">OpenAI</span>
+      <span class="logo-item">Microsoft</span>
+      <span class="logo-item">Vercel</span>
+      <span class="logo-item">Figma</span>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <section id="how-it-works">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:3rem;">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">From Sign-Up to <span class="gradient-text">Breakthrough</span></h2>
+        <p class="section-sub" style="margin:0 auto;">Four simple steps to connect with the mentor who will change your trajectory.</p>
+      </div>
+      <div style="max-width:640px; margin:0 auto;" class="steps">
+        <div class="step">
+          <div class="step-num"></div>
+          <div class="step-body">
+            <h3>Create Your Profile</h3>
+            <p>Tell us your goals, current skills, and where you want to go. Takes under 3 minutes.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num"></div>
+          <div class="step-body">
+            <h3>AI Matches You</h3>
+            <p>Our AI analyzes your profile and recommends the best-fit mentors from our vetted network.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num"></div>
+          <div class="step-body">
+            <h3>Book a Session</h3>
+            <p>Schedule 1-on-1 video calls, async feedback, or join group workshops — whatever works for you.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num"></div>
+          <div class="step-body">
+            <h3>Track Your Progress</h3>
+            <p>Set milestones, get AI-generated action plans, and measure your growth every week.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" style="background:var(--bg2);">
+    <div class="container">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Everything You Need to <span class="gradient-text">Grow Faster</span></h2>
+      <p class="section-sub">Built for serious learners who want real results, not just another course.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">🤖</div>
+          <h3>AI Mentor Matching</h3>
+          <p>Our matching engine considers your goals, learning style, and availability to find your perfect mentor.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3>Personalized Roadmaps</h3>
+          <p>AI-generated step-by-step learning paths tailored to your specific career goal and timeline.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📹</div>
+          <h3>1-on-1 Video Sessions</h3>
+          <p>HD video calls with screen sharing, code collaboration, and session recordings you can rewatch.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💬</div>
+          <h3>Async Feedback</h3>
+          <p>Submit your work and get detailed written or video feedback from your mentor within 24 hours.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📊</div>
+          <h3>Progress Analytics</h3>
+          <p>Visual dashboards track your skill growth, session history, and milestone completions over time.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🏆</div>
+          <h3>Verified Mentors</h3>
+          <p>Every mentor passes our rigorous exam and background check. Only the top 8% are accepted.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Mentors -->
+  <section id="mentors">
+    <div class="container">
+      <div class="section-label">Expert Mentors</div>
+      <h2 class="section-title">Learn from the <span class="gradient-text">Best in the Field</span></h2>
+      <p class="section-sub">Our mentors are senior engineers, researchers, and founders from leading companies.</p>
+      <div class="grid-4" style="margin-bottom:2.5rem;">
+        <div class="mentor-card">
+          <div class="mentor-img">👩‍💻</div>
+          <div class="mentor-info">
+            <h3>Sara Chen</h3>
+            <div class="role">Staff Engineer · Google</div>
+            <div class="mentor-tags">
+              <span class="tag">Machine Learning</span>
+              <span class="tag">Python</span>
+              <span class="tag">System Design</span>
+            </div>
+          </div>
+        </div>
+        <div class="mentor-card">
+          <div class="mentor-img">👨‍🔬</div>
+          <div class="mentor-info">
+            <h3>James Park</h3>
+            <div class="role">AI Researcher · OpenAI</div>
+            <div class="mentor-tags">
+              <span class="tag">LLMs</span>
+              <span class="tag">PyTorch</span>
+              <span class="tag">NLP</span>
+            </div>
+          </div>
+        </div>
+        <div class="mentor-card">
+          <div class="mentor-img">👩‍🎨</div>
+          <div class="mentor-info">
+            <h3>Maya Patel</h3>
+            <div class="role">Design Lead · Figma</div>
+            <div class="mentor-tags">
+              <span class="tag">UI/UX</span>
+              <span class="tag">Product Design</span>
+              <span class="tag">Figma</span>
+            </div>
+          </div>
+        </div>
+        <div class="mentor-card">
+          <div class="mentor-img">👨‍💼</div>
+          <div class="mentor-info">
+            <h3>Alex Russo</h3>
+            <div class="role">Founder · YC Alumni</div>
+            <div class="mentor-tags">
+              <span class="tag">Startups</span>
+              <span class="tag">Fundraising</span>
+              <span class="tag">Product</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <a href="signup.html" class="btn btn-outline">Browse All 850+ Mentors &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" style="background:var(--bg2);">
+    <div class="container">
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-title">Real Stories, <span class="gradient-text">Real Results</span></h2>
+      <p class="section-sub">Thousands of learners have transformed their careers with BridgeAI.</p>
+      <div class="grid-3">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"Within 3 months of working with my BridgeAI mentor, I landed a senior ML engineer role at a Series B startup. The AI-matched guidance was unlike anything I'd experienced."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar">DK</div>
+            <div>
+              <div class="reviewer-name">David Kim</div>
+              <div class="reviewer-role">ML Engineer · DataFlow AI</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"I went from zero coding knowledge to shipping my first SaaS in 6 months. My mentor knew exactly what I needed to focus on — no wasted time on irrelevant material."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar">LP</div>
+            <div>
+              <div class="reviewer-name">Lena Petrov</div>
+              <div class="reviewer-role">Founder · NoteStack</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"The personalized roadmap feature is brilliant. It breaks down a daunting goal into weekly action items. I've recommended BridgeAI to my entire team."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar">MA</div>
+            <div>
+              <div class="reviewer-name">Marcus Allen</div>
+              <div class="reviewer-role">Engineering Manager · Stripe</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <div class="section-label" style="margin-bottom:1rem;">Get Started Today</div>
+        <h2 style="margin-bottom:1rem;">Ready to <span class="gradient-text">Bridge the Gap?</span></h2>
+        <p style="max-width:460px;margin:0 auto 2rem;font-size:1.05rem;">Join thousands of learners who are already growing faster with personalized AI-matched mentorship.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
+          <a href="signup.html" class="btn btn-primary btn-lg">Create Free Account</a>
+          <a href="mentor-exam.html" class="btn btn-outline btn-lg">Apply as Mentor</a>
+        </div>
+        <p style="margin-top:1.25rem;font-size:.85rem;">No credit card required &middot; Free plan forever</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">Bridge<span>AI</span></a>
+          <p>AI-powered mentorship that bridges the gap between ambition and achievement.</p>
+          <div class="social-links" style="margin-top:1.25rem;">
+            <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-link" aria-label="GitHub">⌥</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#mentors">Browse Mentors</a></li>
+            <li><a href="signup.html">Sign Up</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Mentors</h4>
+          <ul>
+            <li><a href="mentor-exam.html">Apply as Mentor</a></li>
+            <li><a href="mentor-exam.html">Mentor Exam</a></li>
+            <li><a href="#">Mentor Guide</a></li>
+            <li><a href="#">Earnings</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="accessibility.html">Accessibility</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 BridgeAI. All rights reserved.</p>
+        <p>Made with ♥ to bridge every gap</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu(btn) {
+      const menu = document.getElementById('mobile-menu');
+      const open = menu.style.display === 'block';
+      menu.style.display = open ? 'none' : 'block';
+      btn.setAttribute('aria-expanded', String(!open));
+    }
+    // Smooth section scroll for hash links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+  </script>
+</body>
+</html>

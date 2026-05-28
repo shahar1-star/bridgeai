@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessibility Statement — BridgeAI</title>
+  <meta name="description" content="BridgeAI's commitment to digital accessibility and WCAG 2.1 compliance." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .a11y-status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+    .a11y-status-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+    .a11y-status-item .status-icon { font-size: 1.75rem; margin-bottom: .5rem; }
+    .a11y-status-item .status-label { font-size: .875rem; font-weight: 600; color: var(--text); margin-bottom: .25rem; }
+    .a11y-status-item .status-value { font-size: .82rem; color: var(--muted); }
+    .a11y-status-item.pass { border-color: rgba(34,197,94,.3); }
+    .a11y-status-item.partial { border-color: rgba(251,191,36,.3); }
+    .feedback-box { background: linear-gradient(135deg, rgba(99,102,241,.07), rgba(6,182,212,.04)); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 1.75rem; margin-top: 2.5rem; }
+    .feedback-box h2 { font-size: 1.1rem; margin-bottom: .5rem; color: var(--text); }
+    .keyboard-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .88rem; }
+    .keyboard-table th { text-align: left; padding: .6rem .9rem; background: var(--bg3); color: var(--text); font-weight: 600; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; }
+    .keyboard-table td { padding: .6rem .9rem; border-bottom: 1px solid var(--border); color: var(--muted); }
+    .keyboard-table tr:last-child td { border-bottom: none; }
+    kbd { background: var(--bg3); border: 1px solid var(--border2); border-radius: 5px; padding: .15rem .45rem; font-family: 'Courier New', monospace; font-size: .82rem; color: var(--text); }
+  </style>
+</head>
+<body>
+  <!-- Skip navigation link (accessibility best practice) -->
+  <a href="#main-content" class="sr-only" style="position:fixed;top:1rem;left:1rem;z-index:9999;background:var(--indigo);color:#fff;padding:.75rem 1.25rem;border-radius:8px;text-decoration:none;font-weight:600;transform:translateY(-100px);transition:transform .2s;" onfocus="this.style.transform='translateY(0)'" onblur="this.style.transform='translateY(-100px)'">
+    Skip to main content
+  </a>
+
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="BridgeAI home">Bridge<span>AI</span></a>
+      <div class="nav-cta">
+        <a href="index.html" class="btn btn-ghost btn-sm">← Home</a>
+        <a href="signup.html" class="btn btn-primary btn-sm">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <main role="main" id="main-content">
+    <article class="legal-page">
+      <div class="section-label" style="margin-bottom:.75rem;">Accessibility</div>
+      <h1>Accessibility Statement</h1>
+      <p class="meta">Last reviewed: May 28, 2026</p>
+
+      <p>BridgeAI is committed to ensuring that our platform is accessible to everyone, including people with disabilities. We believe that great mentorship should have no barriers, digital or otherwise. This statement describes our accessibility efforts, current conformance level, and how to reach us with feedback or assistance requests.</p>
+
+      <h2>Our Conformance Goal</h2>
+      <p>We aim to conform to the <strong>Web Content Accessibility Guidelines (WCAG) 2.1 Level AA</strong>, published by the World Wide Web Consortium (W3C). These guidelines explain how to make web content more accessible to people with a wide range of disabilities, including visual, auditory, physical, speech, cognitive, and neurological disabilities.</p>
+
+      <div class="a11y-status-grid" role="list" aria-label="Accessibility conformance status">
+        <div class="a11y-status-item pass" role="listitem">
+          <div class="status-icon">✅</div>
+          <div class="status-label">WCAG 2.1 Level A</div>
+          <div class="status-value">Fully conforms</div>
+        </div>
+        <div class="a11y-status-item pass" role="listitem">
+          <div class="status-icon">✅</div>
+          <div class="status-label">WCAG 2.1 Level AA</div>
+          <div class="status-value">Substantially conforms</div>
+        </div>
+        <div class="a11y-status-item partial" role="listitem">
+          <div class="status-icon">🔄</div>
+          <div class="status-label">WCAG 2.1 Level AAA</div>
+          <div class="status-value">Partially conforms — in progress</div>
+        </div>
+        <div class="a11y-status-item pass" role="listitem">
+          <div class="status-icon">✅</div>
+          <div class="status-label">Screen Reader</div>
+          <div class="status-value">Tested with NVDA, VoiceOver, JAWS</div>
+        </div>
+      </div>
+
+      <h2>What We've Done</h2>
+      <p>We have taken the following steps to improve accessibility across the BridgeAI platform:</p>
+      <ul>
+        <li><strong>Semantic HTML:</strong> all pages use proper heading hierarchy, landmark regions (<code>&lt;main&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code>), and semantic elements to aid screen reader navigation.</li>
+        <li><strong>Keyboard navigation:</strong> all interactive elements (links, buttons, forms, modals) are fully operable via keyboard. Focus indicators are clearly visible. Tab order is logical and predictable.</li>
+        <li><strong>ARIA labels and roles:</strong> non-obvious interactive elements include appropriate <code>aria-label</code>, <code>aria-describedby</code>, and ARIA role attributes.</li>
+        <li><strong>Color contrast:</strong> all text meets the WCAG 2.1 AA minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text against their backgrounds.</li>
+        <li><strong>Color independence:</strong> information is never conveyed by color alone — icons, text labels, and patterns are used alongside color cues.</li>
+        <li><strong>Images and icons:</strong> meaningful images have descriptive <code>alt</code> text; decorative images use <code>alt=""</code>. Icon-only buttons include accessible names via <code>aria-label</code>.</li>
+        <li><strong>Form accessibility:</strong> all form inputs are associated with visible labels. Error messages are clearly identified and associated with their fields via <code>aria-describedby</code>.</li>
+        <li><strong>Responsive design:</strong> the platform is fully usable at up to 400% zoom and on screens as small as 320px wide, without horizontal scrolling.</li>
+        <li><strong>Motion and animation:</strong> all animations can be disabled by enabling the system-level <code>prefers-reduced-motion</code> setting.</li>
+        <li><strong>Video captions:</strong> all instructional and promotional videos include synchronized captions. Transcripts are available on request.</li>
+        <li><strong>Skip navigation:</strong> a "Skip to main content" link is available at the top of every page for keyboard and screen reader users.</li>
+        <li><strong>PDF and documents:</strong> downloadable documents are provided in accessible formats. If you need an alternative format, contact us.</li>
+      </ul>
+
+      <h2>Keyboard Shortcuts</h2>
+      <p>The following keyboard shortcuts are available throughout the platform:</p>
+      <table class="keyboard-table" aria-label="Keyboard shortcuts">
+        <thead>
+          <tr><th scope="col">Action</th><th scope="col">Shortcut</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Skip to main content</td><td><kbd>Tab</kbd> (on page load, then <kbd>Enter</kbd>)</td></tr>
+          <tr><td>Open navigation menu (mobile)</td><td><kbd>Alt</kbd> + <kbd>M</kbd></td></tr>
+          <tr><td>Close modal / overlay</td><td><kbd>Escape</kbd></td></tr>
+          <tr><td>Navigate quiz questions</td><td><kbd>←</kbd> / <kbd>→</kbd> arrow keys</td></tr>
+          <tr><td>Select quiz option</td><td><kbd>Space</kbd> or <kbd>Enter</kbd></td></tr>
+          <tr><td>Submit form</td><td><kbd>Enter</kbd></td></tr>
+        </tbody>
+      </table>
+
+      <h2>Assistive Technology Compatibility</h2>
+      <p>BridgeAI is designed to be compatible with assistive technologies. We regularly test with:</p>
+      <ul>
+        <li><strong>Screen readers:</strong> NVDA with Firefox (Windows), JAWS with Chrome (Windows), VoiceOver with Safari (macOS/iOS), TalkBack (Android)</li>
+        <li><strong>Voice control:</strong> Dragon NaturallySpeaking (Windows), Voice Control (macOS/iOS)</li>
+        <li><strong>Switch access:</strong> iOS Switch Control, Android Switch Access</li>
+        <li><strong>Magnification:</strong> ZoomText, browser zoom up to 400%, Windows Magnifier</li>
+      </ul>
+
+      <h2>Known Limitations</h2>
+      <p>We are aware of the following areas that do not yet fully conform to WCAG 2.1 AA and are actively working to address them:</p>
+      <ul>
+        <li>Live video session interface: real-time closed captioning is in development (target: Q3 2026).</li>
+        <li>Some complex data visualizations in the progress analytics dashboard lack full text alternatives. Tabular data equivalents are being added.</li>
+        <li>Third-party video embeds (YouTube, Loom) may have accessibility gaps beyond our control. We are exploring self-hosted alternatives.</li>
+      </ul>
+
+      <h2>Accessibility Testing Process</h2>
+      <p>We conduct accessibility testing through a combination of:</p>
+      <ul>
+        <li>Automated testing using axe-core and Lighthouse on every pull request via our CI pipeline.</li>
+        <li>Manual testing with screen readers and keyboard-only navigation before each major release.</li>
+        <li>Annual third-party accessibility audit conducted by a certified accessibility specialist.</li>
+        <li>User feedback and bug reports from our community.</li>
+      </ul>
+
+      <div class="feedback-box">
+        <h2>Feedback and Assistance</h2>
+        <p>We want to hear from you. If you encounter an accessibility barrier on BridgeAI, or if you need content in an alternative format, please contact our accessibility team:</p>
+        <ul>
+          <li><strong>Email:</strong> <a href="mailto:accessibility@bridgeai.com">accessibility@bridgeai.com</a></li>
+          <li><strong>Response time:</strong> We aim to respond within 2 business days.</li>
+          <li><strong>Phone:</strong> +1 (800) 555-0199 (Monday–Friday, 9am–5pm PT)</li>
+        </ul>
+        <p style="margin-top:.75rem;">When contacting us, please describe:</p>
+        <ol>
+          <li>The specific page or feature where you encountered the issue.</li>
+          <li>What assistive technology you were using (if any).</li>
+          <li>What you were trying to do and what happened instead.</li>
+        </ol>
+        <a href="mailto:accessibility@bridgeai.com" class="btn btn-primary" style="margin-top:1.25rem;">Contact Accessibility Team</a>
+      </div>
+
+      <h2>Formal Complaints</h2>
+      <p>If you are not satisfied with our response to an accessibility complaint, you may contact the relevant regulatory authority in your region. In the US, this includes the Department of Justice (Section 508) or the relevant state agency. In the EU, you may contact your national accessibility enforcement body.</p>
+
+      <h2>Legal Basis</h2>
+      <p>BridgeAI strives to comply with applicable accessibility laws including:</p>
+      <ul>
+        <li>Americans with Disabilities Act (ADA), Title III — US</li>
+        <li>Section 508 of the Rehabilitation Act — US Federal</li>
+        <li>European Accessibility Act (EAA / Directive 2019/882) — EU</li>
+        <li>Equality Act 2010 — UK</li>
+        <li>AODA (Accessibility for Ontarians with Disabilities Act) — Canada (Ontario)</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer role="contentinfo" style="text-align:center;padding:1.5rem;border-top:1px solid var(--border);margin-top:2rem;">
+    <p style="font-size:.85rem;color:var(--faint);">
+      &copy; 2026 BridgeAI &middot;
+      <a href="privacy.html" style="color:var(--muted);text-decoration:none;margin:0 .4rem;">Privacy</a>
+      <a href="terms.html" style="color:var(--muted);text-decoration:none;margin:0 .4rem;">Terms</a>
+      <a href="accessibility.html" style="color:var(--indigo);text-decoration:none;margin:0 .4rem;">Accessibility</a>
+    </p>
+  </footer>
+</body>
+</html>

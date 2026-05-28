@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — BridgeAI</title>
+  <meta name="description" content="Create your free BridgeAI account and start learning with AI-matched expert mentors today." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    .auth-page { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 65px); }
+    .auth-left {
+      background: linear-gradient(145deg, var(--bg2), var(--bg3));
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 3rem; position: relative; overflow: hidden;
+    }
+    .auth-left .orb { position: absolute; }
+    .auth-right { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3rem 2rem; }
+    .auth-form-wrap { width: 100%; max-width: 440px; }
+    .auth-form-wrap h1 { font-size: 1.75rem; margin-bottom: .5rem; }
+    .auth-form-wrap > p { color: var(--muted); margin-bottom: 2rem; }
+    .tabs { display: flex; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 4px; gap: 4px; margin-bottom: 2rem; }
+    .tab-btn { flex: 1; padding: .6rem; border: none; background: transparent; color: var(--muted); border-radius: 7px; cursor: pointer; font-size: .9rem; font-weight: 500; font-family: inherit; transition: all .2s; }
+    .tab-btn.active { background: var(--card2); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .divider-or { display: flex; align-items: center; gap: .75rem; margin: 1.25rem 0; }
+    .divider-or::before, .divider-or::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .divider-or span { font-size: .8rem; color: var(--faint); }
+    .social-auth { display: flex; gap: .75rem; margin-bottom: 1.25rem; }
+    .social-auth button { flex: 1; padding: .7rem; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); cursor: pointer; font-size: .875rem; font-family: inherit; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: .5rem; }
+    .social-auth button:hover { border-color: var(--border2); background: var(--card2); }
+    .role-cards { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: 1.25rem; }
+    .role-card { padding: 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: all .2s; text-align: center; }
+    .role-card:hover { border-color: var(--border2); background: var(--card2); }
+    .role-card.selected { border-color: var(--indigo); background: rgba(99,102,241,.1); }
+    .role-card input[type=radio] { position: absolute; opacity: 0; }
+    .role-card .icon { font-size: 1.75rem; margin-bottom: .4rem; }
+    .role-card .role-name { font-size: .9rem; font-weight: 600; color: var(--text); }
+    .role-card .role-desc { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+    .password-strength { margin-top: .35rem; }
+    .strength-bar { display: flex; gap: 3px; margin-bottom: .3rem; }
+    .strength-seg { flex: 1; height: 3px; border-radius: 3px; background: var(--border); transition: background .3s; }
+    .strength-label { font-size: .75rem; color: var(--muted); }
+    .toggle-pw { position: absolute; right: .9rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--faint); cursor: pointer; padding: .25rem; font-size: 1rem; }
+    .auth-footer-note { text-align: center; margin-top: 1.25rem; font-size: .875rem; color: var(--muted); }
+    .auth-footer-note a { color: var(--indigo); text-decoration: none; }
+    /* Promo panel */
+    .promo-label { display: inline-block; background: rgba(99,102,241,.15); border: 1px solid var(--border2); color: var(--indigo); padding: .3rem .8rem; border-radius: 50px; font-size: .78rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .promo-title { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-bottom: 1rem; line-height: 1.25; }
+    .promo-points { list-style: none; display: flex; flex-direction: column; gap: .85rem; margin-top: 2rem; }
+    .promo-point { display: flex; align-items: flex-start; gap: .75rem; }
+    .promo-point .check { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, var(--indigo), var(--cyan)); display: flex; align-items: center; justify-content: center; font-size: .7rem; color: #fff; flex-shrink: 0; margin-top: 1px; }
+    .promo-point span { font-size: .95rem; color: var(--muted); }
+    .promo-point strong { color: var(--text); }
+    @media (max-width: 768px) {
+      .auth-page { grid-template-columns: 1fr; }
+      .auth-left { display: none; }
+      .auth-right { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="BridgeAI home">Bridge<span>AI</span></a>
+      <div class="nav-cta">
+        <span style="font-size:.875rem;color:var(--muted);">Already have an account?</span>
+        <a href="#" class="btn btn-outline btn-sm" onclick="switchTab('login');return false;">Log In</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="auth-page">
+    <!-- Left promo panel -->
+    <div class="auth-left" aria-hidden="true">
+      <div class="orb orb-purple" style="width:350px;height:350px;top:-100px;left:-100px;"></div>
+      <div class="orb orb-cyan" style="width:250px;height:250px;bottom:-80px;right:-80px;"></div>
+      <div style="position:relative;z-index:1;">
+        <div class="promo-label">Free to start</div>
+        <h2 class="promo-title">Your mentorship <span class="gradient-text">journey starts here</span></h2>
+        <p>Join thousands of learners who are already growing with AI-matched expert mentors.</p>
+        <ul class="promo-points">
+          <li class="promo-point"><div class="check">✓</div><span><strong>AI-powered matching</strong> — we find your perfect mentor in seconds</span></li>
+          <li class="promo-point"><div class="check">✓</div><span><strong>Personalized roadmap</strong> — a clear path to your specific goal</span></li>
+          <li class="promo-point"><div class="check">✓</div><span><strong>First session free</strong> — no credit card required to get started</span></li>
+          <li class="promo-point"><div class="check">✓</div><span><strong>850+ vetted mentors</strong> — every mentor passes our rigorous exam</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+        <div class="tabs" role="tablist" aria-label="Sign up or log in">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-signup" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-login" id="tab-login" onclick="switchTab('login')">Log In</button>
+        </div>
+
+        <!-- Sign Up Panel -->
+        <div class="tab-panel active" id="panel-signup" role="tabpanel" aria-labelledby="tab-signup">
+          <div class="social-auth">
+            <button type="button" aria-label="Continue with Google">
+              <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+              Google
+            </button>
+            <button type="button" aria-label="Continue with GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.57v-2c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.23 1.84 1.23 1.07 1.84 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .31.21.69.82.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </button>
+          </div>
+          <div class="divider-or"><span>or sign up with email</span></div>
+
+          <form id="signup-form" novalidate onsubmit="handleSignup(event)">
+            <fieldset style="border:none;padding:0;margin-bottom:1.25rem;">
+              <legend style="font-size:.875rem;font-weight:500;color:var(--text);margin-bottom:.75rem;">I want to join as</legend>
+              <div class="role-cards">
+                <label class="role-card selected" for="role-learner">
+                  <input type="radio" id="role-learner" name="role" value="learner" checked onchange="onRoleChange(this)" />
+                  <div class="icon">🎓</div>
+                  <div class="role-name">Learner</div>
+                  <div class="role-desc">Get mentored &amp; grow</div>
+                </label>
+                <label class="role-card" for="role-mentor">
+                  <input type="radio" id="role-mentor" name="role" value="mentor" onchange="onRoleChange(this)" />
+                  <div class="icon">🧑‍🏫</div>
+                  <div class="role-name">Mentor</div>
+                  <div class="role-desc">Share your expertise</div>
+                </label>
+              </div>
+            </fieldset>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+              <div class="form-group">
+                <label for="first-name">First name</label>
+                <input type="text" id="first-name" name="firstName" placeholder="Alex" autocomplete="given-name" required />
+                <span class="form-error" id="err-first-name">Please enter your first name</span>
+              </div>
+              <div class="form-group">
+                <label for="last-name">Last name</label>
+                <input type="text" id="last-name" name="lastName" placeholder="Rivera" autocomplete="family-name" required />
+                <span class="form-error" id="err-last-name">Please enter your last name</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signup-email">Email address</label>
+              <input type="email" id="signup-email" name="email" placeholder="you@example.com" autocomplete="email" required />
+              <span class="form-error" id="err-signup-email">Please enter a valid email address</span>
+            </div>
+
+            <div class="form-group">
+              <label for="signup-password">Password</label>
+              <div class="input-wrap">
+                <input type="password" id="signup-password" name="password" placeholder="At least 8 characters" autocomplete="new-password" required oninput="checkStrength(this.value)" />
+                <button type="button" class="toggle-pw" aria-label="Toggle password visibility" onclick="togglePw('signup-password', this)">👁</button>
+              </div>
+              <div class="password-strength" id="pw-strength" aria-live="polite">
+                <div class="strength-bar">
+                  <div class="strength-seg" id="seg1"></div>
+                  <div class="strength-seg" id="seg2"></div>
+                  <div class="strength-seg" id="seg3"></div>
+                  <div class="strength-seg" id="seg4"></div>
+                </div>
+                <span class="strength-label" id="strength-label"></span>
+              </div>
+              <span class="form-error" id="err-signup-password">Password must be at least 8 characters</span>
+            </div>
+
+            <div class="form-group" id="goal-group">
+              <label for="goal">What's your main goal? <span style="color:var(--faint)">(optional)</span></label>
+              <select id="goal" name="goal">
+                <option value="">Select a goal…</option>
+                <option>Land a software engineering job</option>
+                <option>Break into AI / machine learning</option>
+                <option>Switch careers into tech</option>
+                <option>Build my own startup / product</option>
+                <option>Level up as a senior engineer</option>
+                <option>Improve my system design skills</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <div class="check-group">
+                <input type="checkbox" id="terms-check" required />
+                <label for="terms-check">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></label>
+              </div>
+              <span class="form-error" id="err-terms">You must agree to continue</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:.5rem;" id="signup-btn">
+              Create Free Account
+            </button>
+
+            <div id="mentor-redirect" style="display:none;" class="alert alert-info mt-2">
+              <span>🎓</span>
+              <span>As a mentor applicant, you'll complete a short qualification exam after signing up. <a href="mentor-exam.html" style="color:var(--indigo);">Preview the exam &rarr;</a></span>
+            </div>
+          </form>
+        </div>
+
+        <!-- Log In Panel -->
+        <div class="tab-panel" id="panel-login" role="tabpanel" aria-labelledby="tab-login">
+          <div class="social-auth">
+            <button type="button" aria-label="Log in with Google">
+              <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+              Google
+            </button>
+            <button type="button" aria-label="Log in with GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.57v-2c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.23 1.84 1.23 1.07 1.84 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .31.21.69.82.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </button>
+          </div>
+          <div class="divider-or"><span>or log in with email</span></div>
+
+          <form id="login-form" novalidate onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label for="login-email">Email address</label>
+              <input type="email" id="login-email" name="email" placeholder="you@example.com" autocomplete="email" required />
+            </div>
+            <div class="form-group">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+                <label for="login-password" style="margin-bottom:0;">Password</label>
+                <a href="#" style="font-size:.8rem;color:var(--indigo);text-decoration:none;">Forgot password?</a>
+              </div>
+              <div class="input-wrap">
+                <input type="password" id="login-password" name="password" placeholder="Your password" autocomplete="current-password" required />
+                <button type="button" class="toggle-pw" aria-label="Toggle password visibility" onclick="togglePw('login-password', this)">👁</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="check-group">
+                <input type="checkbox" id="remember-me" />
+                <label for="remember-me">Remember me for 30 days</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:.25rem;">Log In</button>
+          </form>
+        </div>
+
+        <p class="auth-footer-note">
+          By continuing you agree to our <a href="terms.html">Terms</a> &amp; <a href="privacy.html">Privacy Policy</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      document.getElementById('tab-' + tab).setAttribute('aria-selected','true');
+      document.getElementById('panel-' + tab).classList.add('active');
+    }
+
+    function onRoleChange(radio) {
+      document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+      radio.closest('.role-card').classList.add('selected');
+      document.getElementById('mentor-redirect').style.display = radio.value === 'mentor' ? 'flex' : 'none';
+      document.getElementById('goal-group').style.display = radio.value === 'mentor' ? 'none' : 'block';
+    }
+
+    function togglePw(id, btn) {
+      const inp = document.getElementById(id);
+      if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; btn.setAttribute('aria-label','Hide password'); }
+      else { inp.type = 'password'; btn.textContent = '👁'; btn.setAttribute('aria-label','Show password'); }
+    }
+
+    function checkStrength(val) {
+      const colors = ['#ef4444','#f97316','#eab308','#22c55e'];
+      const labels = ['Weak','Fair','Good','Strong'];
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('seg' + i).style.background = i <= score ? colors[score-1] : 'var(--border)';
+      }
+      document.getElementById('strength-label').textContent = val.length ? labels[score-1] || '' : '';
+    }
+
+    function showError(id, show) {
+      document.getElementById(id).style.display = show ? 'block' : 'none';
+    }
+
+    function handleSignup(e) {
+      e.preventDefault();
+      let valid = true;
+      const fn = document.getElementById('first-name').value.trim();
+      const ln = document.getElementById('last-name').value.trim();
+      const em = document.getElementById('signup-email').value.trim();
+      const pw = document.getElementById('signup-password').value;
+      const tc = document.getElementById('terms-check').checked;
+      showError('err-first-name', !fn); if (!fn) valid = false;
+      showError('err-last-name', !ln); if (!ln) valid = false;
+      showError('err-signup-email', !em || !em.includes('@')); if (!em || !em.includes('@')) valid = false;
+      showError('err-signup-password', pw.length < 8); if (pw.length < 8) valid = false;
+      showError('err-terms', !tc); if (!tc) valid = false;
+      if (!valid) return;
+      const role = document.querySelector('input[name=role]:checked').value;
+      const btn = document.getElementById('signup-btn');
+      btn.textContent = 'Creating account…'; btn.disabled = true;
+      setTimeout(() => { window.location.href = role === 'mentor' ? 'mentor-exam.html' : 'thankyou.html'; }, 1200);
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      window.location.href = 'thankyou.html';
+    }
+  </script>
+</body>
+</html>

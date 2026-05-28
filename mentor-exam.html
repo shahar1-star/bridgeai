@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentor Qualification Exam — BridgeAI</title>
+  <meta name="description" content="Apply to become a verified BridgeAI mentor. Complete our qualification exam to join our network of elite mentors." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .exam-page { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    .exam-hero { text-align: center; margin-bottom: 3rem; }
+    .exam-hero h1 { margin-bottom: .75rem; }
+    .exam-meta { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1.5rem; }
+    .exam-meta-item { display: flex; align-items: center; gap: .5rem; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: .45rem .9rem; font-size: .85rem; color: var(--muted); }
+    .exam-meta-item strong { color: var(--text); }
+
+    /* Progress header */
+    .exam-header { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1.75rem; }
+    .exam-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem; }
+    .step-counter { font-size: .875rem; color: var(--muted); }
+    .step-counter strong { color: var(--text); }
+    .timer { display: flex; align-items: center; gap: .4rem; font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text); }
+    .timer.warning { color: #f97316; }
+    .timer.urgent { color: #ef4444; }
+    .section-pill { font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--indigo); }
+
+    /* Question card */
+    .question-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem; margin-bottom: 1.25rem; }
+    .question-card h2 { font-size: 1.1rem; color: var(--text); margin-bottom: 1.25rem; line-height: 1.5; }
+    .q-context { background: var(--bg3); border-left: 3px solid var(--indigo); border-radius: 0 8px 8px 0; padding: .75rem 1rem; margin-bottom: 1.25rem; font-size: .88rem; color: var(--muted); font-family: 'Courier New', monospace; white-space: pre-wrap; }
+
+    /* Nav buttons */
+    .exam-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .exam-nav-left, .exam-nav-right { display: flex; gap: .75rem; }
+
+    /* Summary / sections */
+    .section-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .75rem; margin-bottom: 2.5rem; }
+    .section-item { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; }
+    .section-item .s-icon { font-size: 1.5rem; margin-bottom: .5rem; }
+    .section-item .s-name { font-size: .9rem; font-weight: 600; color: var(--text); margin-bottom: .2rem; }
+    .section-item .s-count { font-size: .8rem; color: var(--muted); }
+
+    /* Info box */
+    .info-box { background: rgba(99,102,241,.07); border: 1px solid rgba(99,102,241,.2); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.75rem; font-size: .9rem; color: var(--muted); }
+    .info-box strong { color: var(--text); }
+
+    /* Results */
+    .results-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; }
+    .results-card h2 { margin: .75rem 0 .5rem; }
+
+    /* Short answer textarea */
+    textarea { resize: vertical; min-height: 100px; }
+
+    /* Answered dot */
+    .dot-nav { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .dot-nav .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); border: 1px solid var(--border2); cursor: pointer; transition: background .2s; }
+    .dot-nav .dot.answered { background: var(--indigo); border-color: var(--indigo); }
+    .dot-nav .dot.current { box-shadow: 0 0 0 2px var(--indigo); }
+  </style>
+</head>
+<body>
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="BridgeAI home">Bridge<span>AI</span></a>
+      <div class="nav-cta">
+        <a href="signup.html" class="btn btn-outline btn-sm">Back to Sign Up</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="exam-page" id="exam-app">
+    <!-- Intro screen -->
+    <div id="screen-intro">
+      <div class="exam-hero">
+        <div class="section-label">Mentor Application</div>
+        <h1>Mentor Qualification <span class="gradient-text">Exam</span></h1>
+        <p style="max-width:520px;margin:.75rem auto 0;font-size:1.05rem;">Demonstrate your expertise and commitment to mentorship. Only the top 8% of applicants are accepted — and it shows in our results.</p>
+        <div class="exam-meta">
+          <div class="exam-meta-item">⏱ Time limit: <strong>35 minutes</strong></div>
+          <div class="exam-meta-item">❓ Questions: <strong>20</strong></div>
+          <div class="exam-meta-item">🎯 Pass score: <strong>70%</strong></div>
+          <div class="exam-meta-item">📋 Sections: <strong>4</strong></div>
+        </div>
+      </div>
+
+      <div class="section-list" role="list" aria-label="Exam sections">
+        <div class="section-item" role="listitem">
+          <div class="s-icon">🧠</div>
+          <div class="s-name">Technical Knowledge</div>
+          <div class="s-count">6 questions</div>
+        </div>
+        <div class="section-item" role="listitem">
+          <div class="s-icon">🎓</div>
+          <div class="s-name">Teaching &amp; Mentorship</div>
+          <div class="s-count">5 questions</div>
+        </div>
+        <div class="section-item" role="listitem">
+          <div class="s-icon">💼</div>
+          <div class="s-name">Industry Experience</div>
+          <div class="s-count">5 questions</div>
+        </div>
+        <div class="section-item" role="listitem">
+          <div class="s-icon">✍️</div>
+          <div class="s-name">Case Studies</div>
+          <div class="s-count">4 questions</div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>Before you begin:</strong> Make sure you're in a quiet environment. The timer starts when you click "Start Exam." You can navigate between questions freely. All answers are saved automatically.
+      </div>
+
+      <div style="margin-bottom:1.5rem;">
+        <h3 style="margin-bottom:1rem;">Your details</h3>
+        <form id="intro-form" onsubmit="startExam(event)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div class="form-group">
+              <label for="m-first">First name</label>
+              <input type="text" id="m-first" placeholder="First name" required autocomplete="given-name" />
+            </div>
+            <div class="form-group">
+              <label for="m-last">Last name</label>
+              <input type="text" id="m-last" placeholder="Last name" required autocomplete="family-name" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label for="m-email">Email</label>
+            <input type="email" id="m-email" placeholder="you@example.com" required autocomplete="email" />
+          </div>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label for="m-expertise">Primary area of expertise</label>
+            <select id="m-expertise" required>
+              <option value="">Select your field…</option>
+              <option>Software Engineering</option>
+              <option>Machine Learning / AI</option>
+              <option>Data Science</option>
+              <option>Product Management</option>
+              <option>UI/UX Design</option>
+              <option>DevOps / Platform Engineering</option>
+              <option>Mobile Development</option>
+              <option>Cybersecurity</option>
+              <option>Startup &amp; Entrepreneurship</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:1.5rem;">
+            <label for="m-years">Years of professional experience</label>
+            <select id="m-years" required>
+              <option value="">Select…</option>
+              <option>2–3 years</option>
+              <option>4–6 years</option>
+              <option>7–10 years</option>
+              <option>10+ years</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">Start Exam &rarr;</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Exam screen -->
+    <div id="screen-exam" style="display:none;">
+      <div class="exam-header">
+        <div class="exam-header-top">
+          <div>
+            <div class="section-pill" id="current-section-label">Technical Knowledge</div>
+            <div class="step-counter" style="margin-top:.3rem;">Question <strong id="q-num">1</strong> of <strong>20</strong></div>
+          </div>
+          <div>
+            <div class="timer" id="timer" role="timer" aria-live="polite">⏱ 35:00</div>
+          </div>
+        </div>
+        <div class="progress-bar" style="margin-bottom:.5rem;" role="progressbar" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0" aria-label="Exam progress" id="progress-bar-wrap">
+          <div class="progress-fill" id="progress-fill" style="width:5%;"></div>
+        </div>
+        <div class="dot-nav" id="dot-nav" aria-label="Question navigation"></div>
+      </div>
+
+      <div class="question-card" id="question-card">
+        <!-- Filled by JS -->
+      </div>
+
+      <div class="exam-nav">
+        <div class="exam-nav-left">
+          <button class="btn btn-outline" id="btn-prev" onclick="navigate(-1)" disabled>&larr; Previous</button>
+        </div>
+        <div class="exam-nav-right">
+          <button class="btn btn-ghost btn-sm" onclick="flagQuestion()" id="btn-flag">&#128681; Flag</button>
+          <button class="btn btn-primary" id="btn-next" onclick="navigate(1)">Next &rarr;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results screen -->
+    <div id="screen-results" style="display:none;">
+      <div class="results-card">
+        <div class="score-ring" id="score-ring"><span class="score-value" id="score-value">--</span></div>
+        <h2 id="result-headline">Calculating…</h2>
+        <p id="result-sub" style="max-width:420px;margin:.5rem auto 1.5rem;"></p>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:1.5rem;" id="result-breakdown"></div>
+        <div style="display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;" id="result-actions"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+  const QUESTIONS = [
+    // Section 0: Technical Knowledge
+    { section: 0, type: 'mcq', q: 'What is the time complexity of a binary search on a sorted array of n elements?', opts: [
+        { t: 'O(n)', d: 'Linear time' },
+        { t: 'O(log n)', d: 'Logarithmic time — correct' },
+        { t: 'O(n log n)', d: 'Log-linear time' },
+        { t: 'O(1)', d: 'Constant time' }
+      ], ans: 1 },
+    { section: 0, type: 'mcq', q: 'In a REST API, which HTTP method is idempotent but NOT safe?', opts: [
+        { t: 'GET', d: '' },
+        { t: 'DELETE', d: '' },
+        { t: 'PUT', d: '' },
+        { t: 'POST', d: '' }
+      ], ans: 2 },
+    { section: 0, type: 'mcq', q: 'Which of the following best describes a race condition?', opts: [
+        { t: 'A slow database query that blocks other queries', d: '' },
+        { t: 'When two threads read/write shared state concurrently producing unpredictable results', d: '' },
+        { t: 'A memory leak caused by unclosed file handles', d: '' },
+        { t: 'When a function calls itself without a base case', d: '' }
+      ], ans: 1 },
+    { section: 0, type: 'mcq', q: 'In machine learning, what problem does L2 regularization (Ridge) primarily address?', opts: [
+        { t: 'Underfitting', d: '' },
+        { t: 'Overfitting by shrinking weights toward zero', d: '' },
+        { t: 'Class imbalance', d: '' },
+        { t: 'Missing data imputation', d: '' }
+      ], ans: 1 },
+    { section: 0, type: 'code', q: 'What does the following Python function return when called as `foo([1, 2, 3, 4, 5])`?', code: 'def foo(lst):\n    return [x**2 for x in lst if x % 2 == 0]', opts: [
+        { t: '[1, 4, 9, 16, 25]', d: '' },
+        { t: '[4, 16]', d: '' },
+        { t: '[2, 4]', d: '' },
+        { t: '[1, 9, 25]', d: '' }
+      ], ans: 1 },
+    { section: 0, type: 'mcq', q: 'Which data structure offers O(1) average-case lookup by key?', opts: [
+        { t: 'Binary search tree', d: '' },
+        { t: 'Linked list', d: '' },
+        { t: 'Hash map', d: '' },
+        { t: 'Min-heap', d: '' }
+      ], ans: 2 },
+
+    // Section 1: Teaching & Mentorship
+    { section: 1, type: 'mcq', q: 'A mentee keeps asking "just tell me the answer" when stuck on a problem. What is the BEST mentorship response?', opts: [
+        { t: 'Give them the answer to keep the session moving', d: '' },
+        { t: 'Refuse to help and let them struggle alone', d: '' },
+        { t: 'Use Socratic questioning to guide them to the answer themselves', d: '' },
+        { t: 'Assign more reading material', d: '' }
+      ], ans: 2 },
+    { section: 1, type: 'mcq', q: 'Bloom\'s Taxonomy describes levels of learning. In which order should a mentor typically progress when introducing a new concept?', opts: [
+        { t: 'Evaluate → Analyze → Apply → Understand → Remember → Create', d: '' },
+        { t: 'Remember → Understand → Apply → Analyze → Evaluate → Create', d: '' },
+        { t: 'Create → Evaluate → Analyze → Apply → Understand → Remember', d: '' },
+        { t: 'Apply → Remember → Understand → Create → Analyze → Evaluate', d: '' }
+      ], ans: 1 },
+    { section: 1, type: 'mcq', q: 'A mentee misses two scheduled sessions without notice. What should you do first?', opts: [
+        { t: 'Immediately terminate the mentorship relationship', d: '' },
+        { t: 'Reach out with empathy to understand what\'s happening and reset expectations together', d: '' },
+        { t: 'Report them to the platform and request a new mentee', d: '' },
+        { t: 'Continue without addressing it', d: '' }
+      ], ans: 1 },
+    { section: 1, type: 'mcq', q: 'Which of the following is most effective for helping a mentee retain a new technical concept long-term?', opts: [
+        { t: 'Sending them a long article to read', d: '' },
+        { t: 'Demonstrating the concept once in a session', d: '' },
+        { t: 'Spaced repetition and having them teach it back to you', d: '' },
+        { t: 'Giving them a quiz immediately after explaining', d: '' }
+      ], ans: 2 },
+    { section: 1, type: 'text', q: 'Describe your personal mentorship philosophy in 2–3 sentences. How do you balance guiding a mentee without creating dependency?' },
+
+    // Section 2: Industry Experience
+    { section: 2, type: 'mcq', q: 'In a production system, a critical bug is found 30 minutes before market open. You have a fix ready but it\'s untested. What do you do?', opts: [
+        { t: 'Deploy immediately — uptime is everything', d: '' },
+        { t: 'Run automated tests, do a canary deploy to a small % of traffic, monitor, then roll out', d: '' },
+        { t: 'Roll back to the previous version and patch after market hours', d: '' },
+        { t: 'Notify the on-call team and do nothing until they respond', d: '' }
+      ], ans: 1 },
+    { section: 2, type: 'mcq', q: 'You\'re reviewing a pull request. The code works correctly but is hard to read. What is the most professional response?', opts: [
+        { t: 'Approve it — working code is all that matters', d: '' },
+        { t: 'Request changes with specific, actionable suggestions and examples of clearer alternatives', d: '' },
+        { t: 'Reject it and rewrite the code yourself', d: '' },
+        { t: 'Leave no comment to avoid conflict', d: '' }
+      ], ans: 1 },
+    { section: 2, type: 'mcq', q: 'Your team adopts a new framework you have no experience with. Your manager expects you to lead its integration. What is your FIRST step?', opts: [
+        { t: 'Delegate the entire integration to a junior developer', d: '' },
+        { t: 'Push back and insist on using the old stack', d: '' },
+        { t: 'Build a small proof-of-concept, identify risks, and share findings with the team', d: '' },
+        { t: 'Read the full documentation before doing anything else', d: '' }
+      ], ans: 2 },
+    { section: 2, type: 'mcq', q: 'Which metric is most directly useful for evaluating an API\'s user-facing performance?', opts: [
+        { t: 'CPU utilization of the server', d: '' },
+        { t: 'P99 latency (99th percentile response time)', d: '' },
+        { t: 'Lines of code per module', d: '' },
+        { t: 'Number of commits per week', d: '' }
+      ], ans: 1 },
+    { section: 2, type: 'text', q: 'Briefly describe a technically complex project you led or contributed to significantly. What was your specific role, and what did you learn from it?' },
+
+    // Section 3: Case Studies
+    { section: 3, type: 'text', q: 'A mentee tells you they want to become a machine learning engineer within 6 months but currently knows only basic Python. How would you structure their first month of learning?' },
+    { section: 3, type: 'mcq', q: 'A mentee built a portfolio project but it has no tests, no documentation, and the code is poorly structured. They\'re about to share it on LinkedIn. What do you advise?', opts: [
+        { t: 'Encourage them immediately — confidence matters most', d: '' },
+        { t: 'Tell them to not post it until it\'s perfect', d: '' },
+        { t: 'Suggest they add a basic README and one or two test cases first, then share — framing it as a learning project', d: '' },
+        { t: 'Rewrite the project for them before they post', d: '' }
+      ], ans: 2 },
+    { section: 3, type: 'mcq', q: 'Two mentees you know both applied for the same competitive job and ask for references. You think one is significantly stronger. What do you do?', opts: [
+        { t: 'Write identical generic references for both', d: '' },
+        { t: 'Decline to provide references for either to avoid bias', d: '' },
+        { t: 'Write honest, differentiated references that highlight each person\'s genuine strengths', d: '' },
+        { t: 'Only write a reference for the stronger candidate', d: '' }
+      ], ans: 2 },
+    { section: 3, type: 'text', q: 'How do you stay current with developments in your field, and how do you incorporate that knowledge into your mentoring sessions? Give a specific example.' },
+  ];
+
+  const SECTIONS = [
+    { name: 'Technical Knowledge', icon: '🧠' },
+    { name: 'Teaching & Mentorship', icon: '🎓' },
+    { name: 'Industry Experience', icon: '💼' },
+    { name: 'Case Studies', icon: '✍️' },
+  ];
+
+  let current = 0;
+  let answers = new Array(QUESTIONS.length).fill(null);
+  let flagged = new Set();
+  let timerInterval = null;
+  let secondsLeft = 35 * 60;
+
+  function startExam(e) {
+    e.preventDefault();
+    document.getElementById('screen-intro').style.display = 'none';
+    document.getElementById('screen-exam').style.display = 'block';
+    buildDotNav();
+    renderQuestion(0);
+    startTimer();
+  }
+
+  function buildDotNav() {
+    const nav = document.getElementById('dot-nav');
+    nav.innerHTML = '';
+    QUESTIONS.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' current' : '');
+      d.setAttribute('title', 'Question ' + (i+1));
+      d.setAttribute('role', 'button');
+      d.setAttribute('tabindex', '0');
+      d.setAttribute('aria-label', 'Go to question ' + (i+1));
+      d.addEventListener('click', () => jumpTo(i));
+      d.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') jumpTo(i); });
+      nav.appendChild(d);
+    });
+  }
+
+  function updateDotNav() {
+    const dots = document.querySelectorAll('#dot-nav .dot');
+    dots.forEach((d, i) => {
+      d.className = 'dot' + (answers[i] !== null ? ' answered' : '') + (i === current ? ' current' : '');
+    });
+  }
+
+  function renderQuestion(idx) {
+    current = idx;
+    const q = QUESTIONS[idx];
+    document.getElementById('current-section-label').textContent = SECTIONS[q.section].icon + ' ' + SECTIONS[q.section].name;
+    document.getElementById('q-num').textContent = idx + 1;
+    const pct = Math.max(5, Math.round(((idx + 1) / QUESTIONS.length) * 100));
+    document.getElementById('progress-fill').style.width = pct + '%';
+    const wrap = document.getElementById('progress-bar-wrap');
+    wrap.setAttribute('aria-valuenow', idx + 1);
+
+    const card = document.getElementById('question-card');
+    let html = `<h2>${idx+1}. ${q.q}</h2>`;
+    if (q.code) html += `<div class="q-context">${q.code}</div>`;
+
+    if (q.type === 'mcq' || q.type === 'code') {
+      html += `<div role="radiogroup" aria-label="Answer options">`;
+      q.opts.forEach((opt, oi) => {
+        const sel = answers[idx] === oi ? ' selected' : '';
+        html += `<label class="quiz-option${sel}" for="opt-${idx}-${oi}">
+          <input type="radio" id="opt-${idx}-${oi}" name="q${idx}" value="${oi}" ${answers[idx]===oi?'checked':''} onchange="selectAnswer(${oi})" />
+          <div>
+            <div class="opt-label">${String.fromCharCode(65+oi)}. ${opt.t}</div>
+            ${opt.d ? `<div class="opt-desc">${opt.d}</div>` : ''}
+          </div>
+        </label>`;
+      });
+      html += `</div>`;
+    } else {
+      html += `<div class="form-group">
+        <label for="text-ans-${idx}" class="sr-only">Your answer</label>
+        <textarea id="text-ans-${idx}" rows="5" placeholder="Type your answer here…" oninput="saveText(this.value)" aria-label="Written answer">${answers[idx] || ''}</textarea>
+        <span class="form-hint">Aim for 2–4 sentences. Quality over length.</span>
+      </div>`;
+    }
+
+    card.innerHTML = html;
+    document.getElementById('btn-prev').disabled = idx === 0;
+    document.getElementById('btn-next').textContent = idx === QUESTIONS.length - 1 ? 'Submit Exam ✓' : 'Next →';
+    document.getElementById('btn-flag').textContent = flagged.has(idx) ? '🏳 Unflag' : '🏁 Flag';
+    updateDotNav();
+    card.focus && card.focus();
+  }
+
+  function selectAnswer(val) {
+    answers[current] = val;
+    document.querySelectorAll('.quiz-option').forEach((el, i) => {
+      el.classList.toggle('selected', i === val);
+    });
+    updateDotNav();
+  }
+
+  function saveText(val) {
+    answers[current] = val || null;
+    updateDotNav();
+  }
+
+  function navigate(dir) {
+    const next = current + dir;
+    if (next < 0) return;
+    if (next >= QUESTIONS.length) { submitExam(); return; }
+    renderQuestion(next);
+  }
+
+  function jumpTo(idx) { renderQuestion(idx); }
+
+  function flagQuestion() {
+    if (flagged.has(current)) flagged.delete(current);
+    else flagged.add(current);
+    document.getElementById('btn-flag').textContent = flagged.has(current) ? '🏳 Unflag' : '🏁 Flag';
+  }
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      secondsLeft--;
+      const m = Math.floor(secondsLeft / 60).toString().padStart(2,'0');
+      const s = (secondsLeft % 60).toString().padStart(2,'0');
+      const el = document.getElementById('timer');
+      el.textContent = `⏱ ${m}:${s}`;
+      if (secondsLeft <= 300) el.className = 'timer warning';
+      if (secondsLeft <= 60) el.className = 'timer urgent';
+      if (secondsLeft <= 0) { clearInterval(timerInterval); submitExam(); }
+    }, 1000);
+  }
+
+  function submitExam() {
+    clearInterval(timerInterval);
+    document.getElementById('screen-exam').style.display = 'none';
+    document.getElementById('screen-results').style.display = 'block';
+
+    // Score MCQ/code questions only
+    let correct = 0, total = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (q.type !== 'text') {
+        total++;
+        if (answers[i] === q.ans) correct++;
+      }
+    });
+    const textAnswered = QUESTIONS.filter((q,i) => q.type === 'text' && answers[i]).length;
+    const textTotal = QUESTIONS.filter(q => q.type === 'text').length;
+    const pct = Math.round((correct / total) * 100);
+    const passed = pct >= 70 && textAnswered >= Math.ceil(textTotal * 0.75);
+
+    document.getElementById('score-value').textContent = pct + '%';
+    const ring = document.getElementById('score-ring');
+    ring.style.setProperty('--pct', (pct / 100 * 360) + 'deg');
+    ring.style.background = `conic-gradient(${passed ? 'var(--indigo)' : '#ef4444'} ${pct}%, var(--bg3) 0%)`;
+
+    document.getElementById('result-headline').textContent = passed ? '🎉 Congratulations — You Passed!' : 'Not quite there yet';
+    document.getElementById('result-sub').textContent = passed
+      ? 'Your score of ' + pct + '% exceeds our 70% threshold. Welcome to the BridgeAI mentor network!'
+      : 'Your score was ' + pct + '%. You need 70% to pass. You\'re welcome to retake the exam after 7 days.';
+
+    document.getElementById('result-breakdown').innerHTML = `
+      <div class="badge badge-${passed?'green':'indigo'}">MCQ score: ${correct}/${total}</div>
+      <div class="badge badge-indigo">Written: ${textAnswered}/${textTotal} answered</div>
+      <div class="badge badge-cyan">Time taken: ${formatTime(35*60 - secondsLeft)}</div>
+    `;
+
+    const actions = document.getElementById('result-actions');
+    if (passed) {
+      actions.innerHTML = `<a href="thankyou.html" class="btn btn-primary btn-lg">Continue to Dashboard →</a>`;
+    } else {
+      actions.innerHTML = `
+        <a href="index.html" class="btn btn-outline">Back to Home</a>
+        <a href="mentor-exam.html" class="btn btn-primary">Retake in 7 Days</a>
+      `;
+    }
+  }
+
+  function formatTime(secs) {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return m + 'm ' + s + 's';
+  }
+  </script>
+</body>
+</html>
